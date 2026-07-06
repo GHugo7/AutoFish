@@ -13,6 +13,7 @@ public class AutoFishConfig {
     private static final Path FILE = FabricLoader.getInstance()
             .getConfigDir().resolve("autofish-lostera.json");
 
+    public boolean precisionMode = false;
     public int reactionMinMs = 300;
     public int reactionMaxMs = 850;
     public int recastMinMs = 1250;

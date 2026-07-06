@@ -3,6 +3,7 @@ package mister.autofish;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
@@ -20,38 +21,93 @@ public class AutoFishConfigScreen {
 
         ConfigCategory timers = builder.getOrCreateCategory(Text.literal("Timers"));
 
-        timers.addEntry(e.startIntSlider(Text.literal("Réaction min (ms)"),
-                        config.reactionMinMs, 50, 1900)
-                .setDefaultValue(300)
-                .setTooltip(Text.literal("Délai mini entre la touche et le coup de canne"))
-                .setSaveConsumer(v -> config.reactionMinMs = v)
+        // Toggle mode précision
+        timers.addEntry(e.startBooleanToggle(Text.literal("Mode précision"),
+                        config.precisionMode)
+                .setDefaultValue(false)
+                .setTooltip(Text.literal("Utilise des champs de saisie exacte plutôt que des sliders"))
+                .setSaveConsumer(v -> {
+                    config.precisionMode = v;
+                    config.save();
+                    MinecraftClient.getInstance().setScreen(create(parent));
+                })
                 .build());
 
-        timers.addEntry(e.startIntSlider(Text.literal("Réaction max (ms)"),
-                        config.reactionMaxMs, 50, 1900)
-                .setDefaultValue(850)
-                .setTooltip(Text.literal("Délai maxi entre la touche et le coup de canne"))
-                .setSaveConsumer(v -> config.reactionMaxMs = v)
-                .build());
+        // Réaction min
+        if (config.precisionMode) {
+            timers.addEntry(e.startIntField(Text.literal("Réaction min (ms)"),
+                            config.reactionMinMs)
+                    .setDefaultValue(300).setMin(0).setMax(10000)
+                    .setTooltip(Text.literal("Délai mini entre la touche et le coup de canne"))
+                    .setSaveConsumer(v -> config.reactionMinMs = v)
+                    .build());
+        } else {
+            timers.addEntry(e.startIntSlider(Text.literal("Réaction min (ms)"),
+                            config.reactionMinMs, 0, 1900)
+                    .setDefaultValue(300)
+                    .setTextGetter(v -> Text.literal(v + " ms"))
+                    .setTooltip(Text.literal("Délai mini entre la touche et le coup de canne"))
+                    .setSaveConsumer(v -> config.reactionMinMs = v)
+                    .build());
+        }
 
-        timers.addEntry(e.startIntSlider(Text.literal("Recast min (ms)"),
-                        config.recastMinMs, 250, 10000)
-                .setDefaultValue(1250)
-                .setTooltip(Text.literal("Pause mini entre ramener et relancer"))
-                .setSaveConsumer(v -> config.recastMinMs = v)
-                .build());
+        // Réaction max
+        if (config.precisionMode) {
+            timers.addEntry(e.startIntField(Text.literal("Réaction max (ms)"),
+                            config.reactionMaxMs)
+                    .setDefaultValue(850).setMin(0).setMax(10000)
+                    .setTooltip(Text.literal("Délai maxi entre la touche et le coup de canne"))
+                    .setSaveConsumer(v -> config.reactionMaxMs = v)
+                    .build());
+        } else {
+            timers.addEntry(e.startIntSlider(Text.literal("Réaction max (ms)"),
+                            config.reactionMaxMs, 0, 1900)
+                    .setDefaultValue(850)
+                    .setTextGetter(v -> Text.literal(v + " ms"))
+                    .setTooltip(Text.literal("Délai maxi entre la touche et le coup de canne"))
+                    .setSaveConsumer(v -> config.reactionMaxMs = v)
+                    .build());
+        }
 
-        timers.addEntry(e.startIntSlider(Text.literal("Recast max (ms)"),
-                        config.recastMaxMs, 250, 10000)
-                .setDefaultValue(2450)
-                .setTooltip(Text.literal("Pause maxi entre ramener et relancer"))
-                .setSaveConsumer(v -> config.recastMaxMs = v)
-                .build());
+        // Recast min
+        if (config.precisionMode) {
+            timers.addEntry(e.startIntField(Text.literal("Recast min (ms)"),
+                            config.recastMinMs)
+                    .setDefaultValue(1250).setMin(0).setMax(60000)
+                    .setTooltip(Text.literal("Pause mini entre ramener et relancer"))
+                    .setSaveConsumer(v -> config.recastMinMs = v)
+                    .build());
+        } else {
+            timers.addEntry(e.startIntSlider(Text.literal("Recast min (ms)"),
+                            config.recastMinMs, 0, 10000)
+                    .setDefaultValue(1250)
+                    .setTextGetter(v -> Text.literal(v + " ms"))
+                    .setTooltip(Text.literal("Pause mini entre ramener et relancer"))
+                    .setSaveConsumer(v -> config.recastMinMs = v)
+                    .build());
+        }
+
+        // Recast max
+        if (config.precisionMode) {
+            timers.addEntry(e.startIntField(Text.literal("Recast max (ms)"),
+                            config.recastMaxMs)
+                    .setDefaultValue(2450).setMin(0).setMax(60000)
+                    .setTooltip(Text.literal("Pause maxi entre ramener et relancer"))
+                    .setSaveConsumer(v -> config.recastMaxMs = v)
+                    .build());
+        } else {
+            timers.addEntry(e.startIntSlider(Text.literal("Recast max (ms)"),
+                            config.recastMaxMs, 0, 10000)
+                    .setDefaultValue(2450)
+                    .setTextGetter(v -> Text.literal(v + " ms"))
+                    .setTooltip(Text.literal("Pause maxi entre ramener et relancer"))
+                    .setSaveConsumer(v -> config.recastMaxMs = v)
+                    .build());
+        }
 
         timers.addEntry(e.startIntField(Text.literal("Timeout sans touche (s)"),
                         config.biteTimeoutSeconds)
                 .setDefaultValue(60)
-                .setMin(5).setMax(600)
                 .setTooltip(Text.literal("Ramène et relance si rien ne mord après ce délai"))
                 .setSaveConsumer(v -> config.biteTimeoutSeconds = v)
                 .build());
