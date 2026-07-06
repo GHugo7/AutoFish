@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "autofish-lostera",
+	"version": "${version}",
+	"name": "autofish-lostera",
+	"description": "Mod autofish pour lostera",
+	"authors": [
+		"MisterToutSimple"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/autofish-lostera/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": ["mister.autofish.AutofishLostera"],
+		"modmenu": ["mister.autofish.ModMenuIntegration"]
+	},
+	"mixins": [
+		"autofish-lostera.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*",
+		"cloth-config": "*",
+		"modmenu": "*"
+	}
+}
