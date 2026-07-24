@@ -121,6 +121,41 @@ public class AutoFishConfigScreen {
                 .setSaveConsumer(v -> config.triggerMessage = v)
                 .build());
 
+        ConfigCategory abilities = builder.getOrCreateCategory(Text.literal("Capacités"));
+
+        abilities.addEntry(e.startBooleanToggle(Text.literal("Capacité houe"), config.hoeAbility)
+                .setDefaultValue(false)
+                .setTooltip(Text.literal("Active la capacité (drop) quand la houe est en main"))
+                .setSaveConsumer(v -> config.hoeAbility = v)
+                .build());
+
+        abilities.addEntry(e.startIntField(Text.literal("Cooldown houe (s)"), config.hoeCooldownSeconds)
+                .setDefaultValue(60).setMin(1).setMax(3600)
+                .setSaveConsumer(v -> config.hoeCooldownSeconds = v)
+                .build());
+
+        abilities.addEntry(e.startBooleanToggle(Text.literal("Capacité pioche"), config.pickaxeAbility)
+                .setDefaultValue(false)
+                .setTooltip(Text.literal("Active la capacité (drop) quand la pioche est en main"))
+                .setSaveConsumer(v -> config.pickaxeAbility = v)
+                .build());
+
+        abilities.addEntry(e.startIntField(Text.literal("Cooldown pioche (s)"), config.pickaxeCooldownSeconds)
+                .setDefaultValue(60).setMin(1).setMax(3600)
+                .setSaveConsumer(v -> config.pickaxeCooldownSeconds = v)
+                .build());
+
+        abilities.addEntry(e.startBooleanToggle(Text.literal("Capacité canne à pêche"), config.rodAbility)
+                .setDefaultValue(false)
+                .setTooltip(Text.literal("Active la capacité (drop) quand la canne est en main"))
+                .setSaveConsumer(v -> config.rodAbility = v)
+                .build());
+
+        abilities.addEntry(e.startIntField(Text.literal("Cooldown canne (s)"), config.rodCooldownSeconds)
+                .setDefaultValue(60).setMin(1).setMax(3600)
+                .setSaveConsumer(v -> config.rodCooldownSeconds = v)
+                .build());
+
         return builder.build();
     }
 }

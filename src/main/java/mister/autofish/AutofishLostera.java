@@ -15,11 +15,13 @@ public class AutofishLostera implements ClientModInitializer {
 	public static AutoFishConfig CONFIG;
 	public static FishingController CONTROLLER;
 	private static KeyBinding toggleKey;
+	public static AbilityController ABILITIES;
 
 	@Override
 	public void onInitializeClient() {
 		CONFIG = AutoFishConfig.load();
 		CONTROLLER = new FishingController(CONFIG);
+		ABILITIES = new AbilityController(CONFIG);
 
 		toggleKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.autofish.toggle",
@@ -33,6 +35,7 @@ public class AutofishLostera implements ClientModInitializer {
 
 			if (CONTROLLER.isEnabled() && text.contains(CONFIG.triggerMessage)) {
 				CONTROLLER.onBite();
+				ABILITIES.tick(client);
 			}
 		});
 

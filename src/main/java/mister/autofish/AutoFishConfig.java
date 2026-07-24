@@ -21,6 +21,13 @@ public class AutoFishConfig {
     public int biteTimeoutSeconds = 60;
     public String triggerMessage = "pour pêcher ce poisson";
 
+    public boolean hoeAbility = false;
+    public int hoeCooldownSeconds = 60;
+    public boolean pickaxeAbility = false;
+    public int pickaxeCooldownSeconds = 60;
+    public boolean rodAbility = false;
+    public int rodCooldownSeconds = 60;
+
     public static AutoFishConfig load() {
         try {
             if (Files.exists(FILE)) {
