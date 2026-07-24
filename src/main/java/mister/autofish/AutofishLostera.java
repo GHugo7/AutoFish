@@ -35,13 +35,13 @@ public class AutofishLostera implements ClientModInitializer {
 
 			if (CONTROLLER.isEnabled() && text.contains(CONFIG.triggerMessage)) {
 				CONTROLLER.onBite();
-				ABILITIES.tick(client);
 			}
 		});
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (toggleKey.wasPressed()) CONTROLLER.toggle(client);
 			CONTROLLER.tick(client);
+			ABILITIES.tick(client);
 		});
 
 		LOGGER.info("AutoFish initialisé");
